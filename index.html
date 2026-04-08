@@ -49,13 +49,20 @@
     input::placeholder {
       color: #aaa;
     }
-
     /* ODSTRANĚNÍ ŠIPEK U NUMBER INPUT */
-    input[type=number]::-webkit-inner-spin-button,
-    input[type=number]::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
+
+/* Chrome, Safari, Edge */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
     input[type=number] {
       -moz-appearance: textfield;
       appearance: textfield;
