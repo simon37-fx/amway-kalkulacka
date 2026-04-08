@@ -1,6 +1,71 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
+  <style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #000000, #1a0033, #2d0066);
+  color: white;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.card {
+  background: rgba(20, 0, 40, 0.8);
+  padding: 30px;
+  border-radius: 20px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(140, 0, 255, 0.5);
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 10px;
+  background: #1a0033;
+  color: white;
+}
+
+input::placeholder {
+  color: #aaa;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #7b00ff, #b300ff);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #b300ff;
+}
+
+#result {
+  margin-top: 20px;
+  font-size: 14px;
+}
+</style>
   <meta charset="UTF-8">
   <title>Kalkulačka úspěchu</title>
 </head>
