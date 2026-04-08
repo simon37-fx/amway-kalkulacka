@@ -48,7 +48,7 @@
       color: #aaa;
     }
 
-    /* ODSTRANĚNÍ ŠIPEK */
+    /* odstranění šipek */
     input[type="number"]::-webkit-outer-spin-button,
     input[type="number"]::-webkit-inner-spin-button {
       -webkit-appearance: none;
@@ -96,7 +96,6 @@
     <input type="number" id="money" placeholder="Měsíční cíl (Kč)">
     <input type="number" id="hours" placeholder="Hodiny týdně">
     <input type="number" id="months" placeholder="Za kolik měsíců">
-    <input type="number" id="profit" placeholder="Zisk z 1 prodeje (Kč)">
 
     <button onclick="calculate()">Spočítat</button>
 
@@ -109,30 +108,54 @@ function calculate() {
   let money = parseFloat(document.getElementById("money").value);
   let hours = parseFloat(document.getElementById("hours").value);
   let months = parseFloat(document.getElementById("months").value);
-  let profit = parseFloat(document.getElementById("profit").value);
 
-  if (isNaN(money) || isNaN(hours) || isNaN(months) || isNaN(profit)) {
+  if (isNaN(money) || isNaN(hours) || isNaN(months)) {
     document.getElementById("result").innerHTML = "❌ Prosím vyplň všechna pole.";
     return;
   }
 
   let hourly = money / (hours * 4.33);
-  let sales = money / profit;
 
-  // body (odhad)
-  let pv = money / 30;
+  // AMWAY TABULKA
+  let levels = [
+    { pv: 200, percent: 0.03 },
+    { pv: 600, percent: 0.06 },
+    { pv: 1200, percent: 0.09 },
+    { pv: 2400, percent: 0.12 },
+    { pv: 4000, percent: 0.15 },
+    { pv: 7000, percent: 0.18 },
+    { pv: 10000, percent: 0.21 }
+  ];
 
-  let personalPV = pv * 0.3;
-  let groupPV = pv;
+  let chosen = null;
+  let estimatedIncome = 0;
 
-  let peoplePerMonth = (groupPV / 100) / months;
+  for (let level of levels) {
+    let turnover = level.pv * 30; // odhad hodnoty bodu
+    let income = turnover * level.percent;
+
+    if (income >= money) {
+      chosen = level;
+      estimatedIncome = income;
+      break;
+    }
+  }
+
+  // pokud nestačí ani 21%
+  if (!chosen) {
+    chosen = levels[levels.length - 1];
+    let turnover = chosen.pv * 30;
+    estimatedIncome = turnover * chosen.percent;
+  }
+
+  let pvPerMonth = chosen.pv / months;
 
   let resultBox = document.getElementById("result");
 
-  // barvy podle náročnosti
-  if (peoplePerMonth > 10) {
+  // barvy
+  if (pvPerMonth > 1000) {
     resultBox.style.color = "#ff4d4d";
-  } else if (peoplePerMonth > 5) {
+  } else if (pvPerMonth > 500) {
     resultBox.style.color = "#ffaa00";
   } else {
     resultBox.style.color = "#00ff99";
@@ -145,20 +168,19 @@ function calculate() {
   }, 100);
 
   resultBox.innerHTML =
-    `💸 <b>${hourly.toFixed(0)} Kč/hod</b><br>
-     📦 <b>${sales.toFixed(0)} prodejů</b><br><br>
+    `💸 <b>${hourly.toFixed(0)} Kč/hod</b><br><br>
 
-     🎯 <b>${pv.toFixed(0)} bodů (PV)</b><br>
-     👤 Osobní: <b>${personalPV.toFixed(0)} PV</b><br>
-     👥 Skupinové: <b>${groupPV.toFixed(0)} PV</b><br><br>
+     🎯 Level: <b>${chosen.percent * 100}%</b><br>
+     📊 Celkem: <b>${chosen.pv} PV</b><br>
+     📅 Měsíčně: <b>${pvPerMonth.toFixed(0)} PV</b><br><br>
 
-     📈 <b>${peoplePerMonth.toFixed(1)} lidí/měsíc</b><br><br>
+     💰 Odhad příjmu: <b>${estimatedIncome.toFixed(0)} Kč</b><br><br>
 
      🔥 Tohle je tvůj plán.<br>
-     👉 Pokud ho chceš rozjet, napiš mi.`;
+     👉 Teď už víš, co musíš dát.`;
 
-  if (peoplePerMonth > 15) {
-    resultBox.innerHTML += "<br><br>⚠️ Pozor: tohle tempo je hodně náročné.";
+  if (pvPerMonth > 1200) {
+    resultBox.innerHTML += "<br><br>⚠️ Hodně náročný plán.";
   }
 }
 </script>
