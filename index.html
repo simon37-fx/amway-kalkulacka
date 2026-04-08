@@ -85,6 +85,23 @@
       transition: 0.5s;
     }
   </style>
+  #tgButton {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #0088cc, #00c6ff);
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+  box-shadow: 0 0 15px rgba(0, 200, 255, 0.4);
+}
+
+#tgButton:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(0, 200, 255, 0.8);
+}
 </head>
 
 <body>
@@ -99,6 +116,15 @@
     <button onclick="calculate()">Spočítat</button>
 
     <div id="result"></div>
+    <div id="cta" style="display:none;">
+  <p style="margin-top:15px; color:#aaa;">
+    💬 Kdyby si chtěl poradit, napiš mi
+  </p>
+
+  <a href="https://t.me/Simon37FX" target="_blank" id="tgButton">
+    🚀 Napsat na Telegram
+  </a>
+</div>
   </div>
 </div>
 
@@ -110,6 +136,7 @@ function calculate() {
   if (isNaN(money) || isNaN(hours)) {
     document.getElementById("result").innerHTML = "❌ Prosím vyplň všechna pole.";
     return;
+    document.getElementById("cta").style.display = "block";
   }
 
   // hodinová sazba
