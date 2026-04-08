@@ -4,6 +4,27 @@
   <meta charset="UTF-8">
   <title>Kalkulačka úspěchu</title>
 </head>
+  <script>
+function calculate() {
+  let money = document.getElementById("money").value;
+  let hours = document.getElementById("hours").value;
+  let months = document.getElementById("months").value;
+  let profit = document.getElementById("profit").value;
+  let teamRate = document.getElementById("teamRate").value;
+
+  let hourly = money / (hours * 4);
+  let sales = money / profit;
+  let people = sales / teamRate;
+  let peoplePerMonth = people / months;
+
+  document.getElementById("result").innerHTML =
+    `💸 Potřebuješ cca ${hourly.toFixed(0)} Kč/hod <br>
+     📦 ${sales.toFixed(0)} prodejů měsíčně <br>
+     👥 ${people.toFixed(0)} lidí v týmu <br>
+     📈 ${peoplePerMonth.toFixed(1)} lidí měsíčně <br><br>
+     👉 Tohle je reálné. Napiš mi a ukážu ti jak.`;
+}
+</script>
 <body>
 <h1>Vypočítej si svůj plán 💸</h1>
 
