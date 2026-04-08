@@ -1,113 +1,128 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-  <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #000000, #1a0033, #2d0066);
-  color: white;
-}
-
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.card {
-  background: rgba(20, 0, 40, 0.8);
-  padding: 30px;
-  border-radius: 20px;
-  width: 300px;
-  text-align: center;
-  box-shadow: 0 0 30px rgba(140, 0, 255, 0.5);
-}
-
-h1 {
-  margin-bottom: 20px;
-}
-
-input {
-  width: 100%;
-  padding: 10px;
-  margin: 8px 0;
-  border: none;
-  border-radius: 10px;
-  background: #1a0033;
-  color: white;
-}
-
-input::placeholder {
-  color: #aaa;
-}
-
-button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 15px;
-  border: none;
-  border-radius: 10px;
-  background: linear-gradient(90deg, #7b00ff, #b300ff);
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px #b300ff;
-}
-
-#result {
-  margin-top: 20px;
-  font-size: 14px;
-}
-</style>
   <meta charset="UTF-8">
   <title>Kalkulačka úspěchu</title>
+  <style>
+    /* BODY + BACKGROUND */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #000000, #1a0033, #2d0066);
+      color: white;
+    }
+
+    /* KONTEJNER */
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* CARD */
+    .card {
+      background: rgba(20, 0, 40, 0.85);
+      padding: 30px;
+      border-radius: 20px;
+      width: 320px;
+      text-align: center;
+      box-shadow: 0 0 30px rgba(140, 0, 255, 0.5);
+    }
+
+    h1 {
+      margin-bottom: 25px;
+    }
+
+    /* INPUTY */
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 10px;
+      background: #1a0033;
+      color: white;
+      font-size: 14px;
+    }
+
+    input::placeholder {
+      color: #aaa;
+    }
+
+    /* BUTTON */
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #7b00ff, #b300ff);
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px #b300ff;
+    }
+
+    /* VÝSLEDEK */
+    #result {
+      margin-top: 25px;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+  </style>
 </head>
-  <script>
-function calculate() {
-  let money = document.getElementById("money").value;
-  let hours = document.getElementById("hours").value;
-  let months = document.getElementById("months").value;
-  let profit = document.getElementById("profit").value;
-  let teamRate = document.getElementById("teamRate").value;
-
-  let hourly = money / (hours * 4);
-  let sales = money / profit;
-  let people = sales / teamRate;
-  let peoplePerMonth = people / months;
-
-  document.getElementById("result").innerHTML =
-  `💸 <b>${hourly.toFixed(0)} Kč/hod</b><br>
-   📦 <b>${sales.toFixed(0)} prodejů</b><br>
-   👥 <b>${people.toFixed(0)} lidí v týmu</b><br>
-   📈 <b>${peoplePerMonth.toFixed(1)} lidí/měsíc</b><br><br>
-   🔥 Tohle je reálné.<br>
-   👉 Napiš mi a ukážu ti jak.`;
-}
-</script>
 <body>
-<div class="container">
 
+<div class="container">
   <div class="card">
     <h1>💸 Vypočítej si svůj plán</h1>
 
-    <input type="number" id="money" placeholder="Měsíční cíl (Kč)">
-    <input type="number" id="hours" placeholder="Hodiny týdně">
-    <input type="number" id="months" placeholder="Za kolik měsíců">
-    <input type="number" id="profit" placeholder="Zisk z 1 prodeje (Kč)">
-    <input type="number" id="teamRate" placeholder="Kolik prodejů udělá 1 člověk">
+    <input type="number" id="money" placeholder="Měsíční cíl (Kč)" inputmode="decimal" step="any">
+    <input type="number" id="hours" placeholder="Hodiny týdně" inputmode="decimal" step="any">
+    <input type="number" id="months" placeholder="Za kolik měsíců" inputmode="decimal" step="any">
+    <input type="number" id="profit" placeholder="Zisk z 1 prodeje (Kč)" inputmode="decimal" step="any">
+    <input type="number" id="teamRate" placeholder="Kolik prodejů udělá 1 člověk" inputmode="decimal" step="any">
 
     <button onclick="calculate()">Spočítat</button>
 
     <div id="result"></div>
   </div>
-
 </div>
+
+<script>
+  function calculate() {
+    let money = parseFloat(document.getElementById("money").value);
+    let hours = parseFloat(document.getElementById("hours").value);
+    let months = parseFloat(document.getElementById("months").value);
+    let profit = parseFloat(document.getElementById("profit").value);
+    let teamRate = parseFloat(document.getElementById("teamRate").value);
+
+    // kontrola vstupů
+    if (!money || !hours || !months || !profit || !teamRate) {
+      document.getElementById("result").innerHTML = "❌ Prosím vyplň všechna pole.";
+      return;
+    }
+
+    let hourly = money / (hours * 4);
+    let sales = money / profit;
+    let people = sales / teamRate;
+    let peoplePerMonth = people / months;
+
+    document.getElementById("result").innerHTML =
+      `💸 <b>${hourly.toFixed(0)} Kč/hod</b><br>
+       📦 <b>${sales.toFixed(0)} prodejů</b><br>
+       👥 <b>${people.toFixed(0)} lidí v týmu</b><br>
+       📈 <b>${peoplePerMonth.toFixed(1)} lidí/měsíc</b><br><br>
+       🔥 Tohle je reálné.<br>
+       👉 Napiš mi a ukážu ti jak.`;
+  }
+</script>
+
 </body>
 </html>
