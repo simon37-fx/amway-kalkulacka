@@ -50,6 +50,17 @@
       color: #aaa;
     }
 
+    /* ODSTRANĚNÍ ŠIPEK U NUMBER INPUT */
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type=number] {
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+
     /* BUTTON */
     button {
       width: 100%;
@@ -76,27 +87,6 @@
       line-height: 1.5;
     }
   </style>
-  /* Odebere šipky u number input */
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type=number] {
-  -moz-appearance: textfield; /* pro Firefox */
-}
-  /* Odebrání šipek u number input ve všech prohlížečích */
-input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type=number] {
-  -moz-appearance: textfield; /* Firefox */
-  appearance: textfield;       /* moderní prohlížeče */
-}
 </head>
 <body>
 
@@ -124,7 +114,6 @@ input[type=number] {
     let profit = parseFloat(document.getElementById("profit").value);
     let teamRate = parseFloat(document.getElementById("teamRate").value);
 
-    // kontrola vstupů
     if (!money || !hours || !months || !profit || !teamRate) {
       document.getElementById("result").innerHTML = "❌ Prosím vyplň všechna pole.";
       return;
