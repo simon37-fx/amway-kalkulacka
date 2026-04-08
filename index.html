@@ -95,6 +95,7 @@
 
     <input type="number" id="money" placeholder="Měsíční cíl (Kč)">
     <input type="number" id="hours" placeholder="Hodiny týdně">
+    <input type="number" id="pvValue" placeholder="Kolik Kč = 1 bod (např. 30)">
 
     <button onclick="calculate()">Spočítat</button>
 
@@ -106,15 +107,16 @@
 function calculate() {
   let money = parseFloat(document.getElementById("money").value);
   let hours = parseFloat(document.getElementById("hours").value);
+  let pvValue = parseFloat(document.getElementById("pvValue").value);
 
-  if (isNaN(money) || isNaN(hours)) {
+  if (isNaN(money) || isNaN(hours) || isNaN(pvValue)) {
     document.getElementById("result").innerHTML = "❌ Prosím vyplň všechna pole.";
     return;
   }
 
   let hourly = money / (hours * 4.33);
 
-  // AMWAY TABULKA
+  // LEVELY
   let levels = [
     { pv: 200, percent: 0.03 },
     { pv: 600, percent: 0.06 },
@@ -130,28 +132,30 @@ function calculate() {
   let turnover = 0;
 
   for (let level of levels) {
-    let turnover = level.pv * 30; // odhad hodnoty bodu
-    let income = turnover * level.percent;
+    let tempTurnover = level.pv * pvValue;
+    let income = tempTurnover * level.percent;
 
     if (income >= money) {
       chosen = level;
       estimatedIncome = income;
+      turnover = tempTurnover;
       break;
     }
   }
 
-  // pokud nestačí ani 21%
+  // fallback (max level)
   if (!chosen) {
     chosen = levels[levels.length - 1];
-    let turnover = chosen.pv * 30;
+    turnover = chosen.pv * pvValue;
     estimatedIncome = turnover * chosen.percent;
   }
 
   let pvPerMonth = chosen.pv;
+  let pvPerDay = pvPerMonth / 30;
 
   let resultBox = document.getElementById("result");
 
-  // barvy
+  // barvy podle náročnosti
   if (pvPerMonth > 1000) {
     resultBox.style.color = "#ff4d4d";
   } else if (pvPerMonth > 500) {
@@ -170,13 +174,15 @@ function calculate() {
     `💸 <b>${hourly.toFixed(0)} Kč/hod</b><br><br>
 
      🎯 Level: <b>${chosen.percent * 100}%</b><br>
-     📊 Celkem: <b>${chosen.pv} PV</b><br>
-     📅 Měsíčně: <b>${pvPerMonth.toFixed(0)} PV</b><br><br>
+     📊 Body: <b>${chosen.pv} PV</b><br>
+     📅 Tento měsíc: <b>${pvPerMonth} PV</b><br>
+     📆 Denně: <b>${pvPerDay.toFixed(1)} PV</b><br><br>
 
-     💰 Odhad příjmu: <b>${estimatedIncome.toFixed(0)} Kč</b><br><br>
+     💰 Obrat (nákup): <b>${turnover.toFixed(0)} Kč</b><br>
+     💰 Výdělek: <b>${estimatedIncome.toFixed(0)} Kč</b><br><br>
 
      🔥 Tohle je tvůj plán.<br>
-     👉 Teď už víš, co musíš dát.`;
+     👉 Teď víš přesně, co musíš dát.`;
 
   if (pvPerMonth > 1200) {
     resultBox.innerHTML += "<br><br>⚠️ Hodně náročný plán.";
