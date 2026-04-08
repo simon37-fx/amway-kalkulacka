@@ -83,11 +83,12 @@ function calculate() {
   let peoplePerMonth = people / months;
 
   document.getElementById("result").innerHTML =
-    `💸 Potřebuješ cca ${hourly.toFixed(0)} Kč/hod <br>
-     📦 ${sales.toFixed(0)} prodejů měsíčně <br>
-     👥 ${people.toFixed(0)} lidí v týmu <br>
-     📈 ${peoplePerMonth.toFixed(1)} lidí měsíčně <br><br>
-     👉 Tohle je reálné. Napiš mi a ukážu ti jak.`;
+  `💸 <b>${hourly.toFixed(0)} Kč/hod</b><br>
+   📦 <b>${sales.toFixed(0)} prodejů</b><br>
+   👥 <b>${people.toFixed(0)} lidí v týmu</b><br>
+   📈 <b>${peoplePerMonth.toFixed(1)} lidí/měsíc</b><br><br>
+   🔥 Tohle je reálné.<br>
+   👉 Napiš mi a ukážu ti jak.`;
 }
 </script>
 <body>
