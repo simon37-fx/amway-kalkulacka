@@ -12,22 +12,17 @@
       color: white;
     }
 
-    .hero {
-      text-align: center;
-      padding: 40px 20px 10px;
-    }
-
     .container {
       display: flex;
       justify-content: center;
-      padding: 20px;
+      padding: 40px 20px;
     }
 
     .card {
-      background: rgba(20, 0, 40, 0.85);
+      background: rgba(20, 0, 40, 0.9);
       padding: 30px;
       border-radius: 20px;
-      width: 90%;
+      width: 100%;
       max-width: 380px;
       text-align: center;
       box-shadow: 0 0 30px rgba(140, 0, 255, 0.5);
@@ -37,8 +32,8 @@
       width: 100%;
       padding: 12px;
       margin: 10px 0;
-      border: none;
       border-radius: 10px;
+      border: none;
       background: #1a0033;
       color: white;
     }
@@ -46,50 +41,55 @@
     button {
       width: 100%;
       padding: 14px;
-      margin-top: 15px;
-      border: none;
+      margin-top: 10px;
       border-radius: 10px;
+      border: none;
       background: linear-gradient(90deg, #7b00ff, #b300ff);
       color: white;
       font-size: 16px;
       cursor: pointer;
     }
 
-    #tgButton {
-      margin-top: 10px;
-      background: linear-gradient(90deg, #0088cc, #00c6ff);
-    }
-
     #result {
-      margin-top: 25px;
+      margin-top: 20px;
+      line-height: 1.6;
     }
 
     #cta {
       display: none;
       margin-top: 20px;
     }
+
+    #tgButton {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(90deg, #0088cc, #00c6ff);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
   </style>
 </head>
 
 <body>
 
-<div class="hero">
-  <h1>🚀 Kolik musíš udělat, abys vydělal?</h1>
-  <p>Spočítej si plán během 5 sekund</p>
-</div>
-
 <div class="container">
   <div class="card">
 
-    <input type="number" id="money" placeholder="Kolik chceš vydělat (Kč)">
-    <input type="number" id="hours" placeholder="Kolik hodin týdně">
+    <h2>💸 Vypočítej si svůj plán</h2>
 
-    <button onclick="calculate()">Spočítat plán</button>
+    <input type="number" id="money" placeholder="Kolik chceš vydělat (Kč)">
+    <input type="number" id="hours" placeholder="Hodiny týdně">
+
+    <button onclick="calculate()">Spočítat</button>
 
     <div id="result"></div>
 
     <div id="cta">
-      <p>💬 Kdyby si chtěl poradit, napiš mi</p>
+      <p>💬 Když chceš vědět jak to dát → napiš mi</p>
       <button id="tgButton" onclick="openTelegram()">
         🚀 Napsat na Telegram
       </button>
@@ -109,8 +109,7 @@ function calculate() {
   }
 
   let hourly = money / (hours * 4.33);
-  let valuePerPV = 7;
-  let totalPV = money / valuePerPV;
+  let pv = money / 7;
 
   let levels = [
     { pv: 200, percent: 3 },
@@ -125,35 +124,31 @@ function calculate() {
   let chosen = levels[levels.length - 1];
 
   for (let level of levels) {
-    if (totalPV <= level.pv) {
+    if (pv <= level.pv) {
       chosen = level;
       break;
     }
   }
 
-  let pvPerDay = chosen.pv / 30;
-  let peopleNeeded = chosen.pv / 100;
+  let daily = chosen.pv / 30;
+  let people = chosen.pv / 100;
 
   document.getElementById("result").innerHTML =
     `💸 ${hourly.toFixed(0)} Kč/hod<br><br>
-     🎯 ${totalPV.toFixed(0)} PV<br>
+     🎯 ${pv.toFixed(0)} PV<br>
      📊 Level ${chosen.percent}%<br>
      📈 ${chosen.pv} PV<br><br>
-     📆 ${pvPerDay.toFixed(1)} PV denně<br>
-     👥 ${peopleNeeded.toFixed(1)} lidí<br><br>
+     📆 ${daily.toFixed(1)} PV denně<br>
+     👥 ${people.toFixed(1)} lidí<br><br>
      🔥 Tohle je tvůj plán`;
 
   document.getElementById("cta").style.display = "block";
 }
 
-// 🔥 TELEGRAM FUNKCE
 function openTelegram() {
   let username = "Simon37FX";
   let text = encodeURIComponent("Ahoj, chci poradit s plánem");
-
-  let url = `https://t.me/${username}?text=${text}`;
-
-  window.open(url, "_blank");
+  window.open(`https://t.me/${username}?text=${text}`, "_blank");
 }
 </script>
 
