@@ -95,7 +95,6 @@
 
     <input type="number" id="money" placeholder="Měsíční cíl (Kč)">
     <input type="number" id="hours" placeholder="Hodiny týdně">
-    <input type="number" id="months" placeholder="Za kolik měsíců">
 
     <button onclick="calculate()">Spočítat</button>
 
@@ -107,9 +106,8 @@
 function calculate() {
   let money = parseFloat(document.getElementById("money").value);
   let hours = parseFloat(document.getElementById("hours").value);
-  let months = parseFloat(document.getElementById("months").value);
 
-  if (isNaN(money) || isNaN(hours) || isNaN(months)) {
+  if (isNaN(money) || isNaN(hours)) {
     document.getElementById("result").innerHTML = "❌ Prosím vyplň všechna pole.";
     return;
   }
@@ -148,7 +146,7 @@ function calculate() {
     estimatedIncome = turnover * chosen.percent;
   }
 
-  let pvPerMonth = chosen.pv / months;
+  let pvPerMonth = chosen.pv;
 
   let resultBox = document.getElementById("result");
 
