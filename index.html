@@ -26,25 +26,22 @@ function calculate() {
 }
 </script>
 <body>
-<h1>Vypočítej si svůj plán 💸</h1>
+<div class="container">
 
-<input type="number" id="money" placeholder="Měsíční cíl (Kč)">
-<br><br>
+  <div class="card">
+    <h1>💸 Vypočítej si svůj plán</h1>
 
-<input type="number" id="hours" placeholder="Hodiny týdně">
-<br><br>
+    <input type="number" id="money" placeholder="Měsíční cíl (Kč)">
+    <input type="number" id="hours" placeholder="Hodiny týdně">
+    <input type="number" id="months" placeholder="Za kolik měsíců">
+    <input type="number" id="profit" placeholder="Zisk z 1 prodeje (Kč)">
+    <input type="number" id="teamRate" placeholder="Kolik prodejů udělá 1 člověk">
 
-<input type="number" id="months" placeholder="Za kolik měsíců">
-<br><br>
+    <button onclick="calculate()">Spočítat</button>
 
-<input type="number" id="profit" placeholder="Zisk z 1 prodeje (Kč)">
-<br><br>
+    <div id="result"></div>
+  </div>
 
-<input type="number" id="teamRate" placeholder="Kolik prodejů udělá 1 člověk">
-<br><br>
-
-<button onclick="calculate()">Spočítat</button>
-
-<h2 id="result"></h2>
+</div>
 </body>
 </html>
