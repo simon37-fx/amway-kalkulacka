@@ -35,17 +35,6 @@
     }
 
     input {
-      /* ❌ odstranění šipek u number input */
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type="number"] {
-  -moz-appearance: textfield;
-  appearance: textfield;
-}
       width: 100%;
       padding: 14px;
       margin: 10px 0;
@@ -111,9 +100,10 @@ input[type="number"] {
 
     <h2>💸 Vypočítej si svůj plán</h2>
 
-    <!-- ✅ jen 2 inputy -->
-   <input type="tel" id="money" placeholder="Kolik chceš vydělat (Kč)">
-<input type="tel" id="team" placeholder="Kolik lidí chceš mít v týmu">
+    <!-- ✅ bez šipek -->
+    <input type="tel" id="money" placeholder="Kolik chceš vydělat (Kč)">
+    <input type="tel" id="team" placeholder="Kolik lidí chceš mít v týmu">
+
     <button onclick="calculate()">Spočítat</button>
 
     <div id="result"></div>
@@ -130,8 +120,8 @@ input[type="number"] {
 
 <script>
 function calculate() {
-  let money = parseFloat(document.getElementById("money").value);
-  let team = parseFloat(document.getElementById("team").value);
+  let money = parseFloat(document.getElementById("money").value.replace(",", "."));
+  let team = parseFloat(document.getElementById("team").value.replace(",", "."));
 
   if (isNaN(money) || isNaN(team)) {
     document.getElementById("result").innerHTML = "❌ Vyplň vše.";
@@ -159,23 +149,24 @@ function calculate() {
     }
   }
 
+  // 🔥 ZAOKROUHLENÍ NA CELÁ ČÍSLA
   let neededPeople = Math.ceil(chosen.pv / 100);
-  let missing = neededPeople - team;
+  let missing = Math.ceil(neededPeople - team);
 
   let message = "";
 
   if (missing > 0) {
-    message = `⚠️ Chybí ti ${missing.toFixed(1)} lidí`;
+    message = `⚠️ Chybí ti ${missing} lidí`;
   } else {
     message = `🔥 Máš dost lidí – teď stačí výkon`;
   }
 
   document.getElementById("result").innerHTML =
-    `🎯 Potřebuješ ${pv.toFixed(0)} PV<br>
+    `🎯 Potřebuješ ${Math.ceil(pv)} PV<br>
      📊 Level ${chosen.percent}%<br><br>
 
-     👥 Potřebuješ tým: ${neededPeople} lidí
-     👤 Máš: ${team}<br><br>
+     👥 Potřebuješ: ${neededPeople} lidí<br>
+     👤 Máš: ${Math.ceil(team)}<br><br>
 
      ${message}`;
 
@@ -183,7 +174,7 @@ function calculate() {
 }
 
 function openTelegram() {
-  let username = "Simon37FX"; // změň!
+  let username = "TVUJ_USERNAME"; // změň!
   let text = encodeURIComponent("Ahoj, chci poradit s plánem");
   window.open(`https://t.me/${username}?text=${text}`, "_blank");
 }
