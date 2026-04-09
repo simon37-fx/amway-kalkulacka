@@ -79,6 +79,27 @@
       margin-top: 10px;
     }
 
+    /* 🔥 SUCCESS / ERROR BOX */
+    .success {
+      background: rgba(0, 255, 150, 0.1);
+      border: 1px solid #00ff99;
+      color: #00ff99;
+      padding: 10px;
+      border-radius: 10px;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .error {
+      background: rgba(255, 80, 80, 0.1);
+      border: 1px solid #ff4d4d;
+      color: #ff4d4d;
+      padding: 10px;
+      border-radius: 10px;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
     @media (max-width: 600px) {
       .card {
         position: static;
@@ -100,7 +121,6 @@
 
     <h2>💸 Vypočítej si svůj plán</h2>
 
-    <!-- ✅ bez šipek -->
     <input type="tel" id="money" placeholder="Kolik chceš vydělat (Kč)">
     <input type="tel" id="team" placeholder="Kolik lidí chceš mít v týmu">
 
@@ -149,16 +169,15 @@ function calculate() {
     }
   }
 
-  // 🔥 ZAOKROUHLENÍ NA CELÁ ČÍSLA
   let neededPeople = Math.ceil(chosen.pv / 100);
   let missing = Math.ceil(neededPeople - team);
 
   let message = "";
 
   if (missing > 0) {
-    message = `⚠️ Chybí ti ${missing} lidí`;
+    message = `<div class="error">⚠️ Chybí ti ${missing} lidí</div>`;
   } else {
-    message = `🔥 Máš dost lidí – teď stačí výkon`;
+    message = `<div class="success">✅ Máš dost lidí – teď stačí výkon</div>`;
   }
 
   document.getElementById("result").innerHTML =
@@ -166,7 +185,7 @@ function calculate() {
      📊 Level ${chosen.percent}%<br><br>
 
      👥 Potřebuješ: ${neededPeople} lidí<br>
-     👤 Máš: ${Math.ceil(team)}<br><br>
+     👤 Máš: ${Math.ceil(team)}<br>
 
      ${message}`;
 
