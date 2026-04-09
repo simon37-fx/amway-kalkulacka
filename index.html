@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
   <title>Kalkulačka úspěchu</title>
 
+  <!-- MOBIL FIX -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #000000, #1a0033, #2d0066);
-  color: white;
-  min-height: 100vh; /* 👈 přidej tohle */
-}
       margin: 0;
       font-family: Arial, sans-serif;
       background: linear-gradient(135deg, #000000, #1a0033, #2d0066);
@@ -20,34 +16,50 @@
     }
 
     .container {
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-}
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
 
     .card {
       background: rgba(20, 0, 40, 0.9);
       padding: 30px;
       border-radius: 20px;
       width: 100%;
-      max-width: 420px;
+      max-width: 400px;
       text-align: center;
       box-shadow: 0 0 30px rgba(140, 0, 255, 0.5);
     }
 
+    h2 {
+      margin-bottom: 20px;
+    }
+
     input {
       width: 100%;
-      padding: 12px;
+      padding: 14px;
       margin: 10px 0;
       border-radius: 10px;
       border: none;
       background: #1a0033;
       color: white;
+      font-size: 16px;
+    }
+
+    input::placeholder {
+      color: #aaa;
+    }
+
+    /* odstranění šipek */
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
     }
 
     button {
       width: 100%;
-      padding: 14px;
+      padding: 15px;
       margin-top: 10px;
       border-radius: 10px;
       border: none;
@@ -69,7 +81,7 @@
 
     #tgButton {
       width: 100%;
-      padding: 14px;
+      padding: 15px;
       border-radius: 10px;
       border: none;
       background: linear-gradient(90deg, #0088cc, #00c6ff);
@@ -78,29 +90,19 @@
       cursor: pointer;
       margin-top: 10px;
     }
+
+    /* MOBIL ÚPRAVA */
     @media (max-width: 600px) {
-  .card {
-    padding: 20px;
-    border-radius: 15px;
-  }
+      .container {
+        align-items: flex-start;
+        min-height: auto;
+      }
 
-  h2 {
-    font-size: 20px;
-  }
-
-  input {
-    font-size: 16px;
-    padding: 14px;
-  }
-
-  button {
-    font-size: 16px;
-    padding: 16px;
-  }
-
-  #tgButton {
-    padding: 16px;
-  }
+      .card {
+        padding: 20px;
+        border-radius: 15px;
+      }
+    }
   </style>
 </head>
 
@@ -112,7 +114,7 @@
     <h2>💸 Vypočítej si svůj plán</h2>
 
     <input type="number" id="money" placeholder="Kolik chceš vydělat (Kč)">
-    <input type="number" id="hours" placeholder="Hodiny týdně">
+    <input type="number" id="hours" placeholder="Kolik hodin týdně">
 
     <button onclick="calculate()">Spočítat</button>
 
@@ -176,8 +178,9 @@ function calculate() {
 }
 
 function openTelegram() {
-  let username = "Simon37FX";
+  let username = "Simon37FX"; // ZMĚŇ!
   let text = encodeURIComponent("Ahoj, chci poradit s plánem");
+
   window.open(`https://t.me/${username}?text=${text}`, "_blank");
 }
 </script>
