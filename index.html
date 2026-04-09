@@ -24,8 +24,7 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%); /* 🔥 TOTO TO OPRAVÍ */
-      
+      transform: translate(-50%, -50%);
       background: rgba(20, 0, 40, 0.9);
       padding: 30px;
       border-radius: 20px;
@@ -33,10 +32,6 @@
       max-width: 400px;
       text-align: center;
       box-shadow: 0 0 30px rgba(140, 0, 255, 0.5);
-    }
-
-    h2 {
-      margin-bottom: 20px;
     }
 
     input {
@@ -84,7 +79,6 @@
       margin-top: 10px;
     }
 
-    /* 📱 MOBIL FIX */
     @media (max-width: 600px) {
       .card {
         position: static;
@@ -107,7 +101,7 @@
     <h2>💸 Vypočítej si svůj plán</h2>
 
     <input type="number" id="money" placeholder="Kolik chceš vydělat (Kč)">
-    <input type="number" id="hours" placeholder="Kolik hodin týdně">
+    <input type="number" id="team" placeholder="Kolik lidí chceš mít v týmu">
 
     <button onclick="calculate()">Spočítat</button>
 
@@ -126,14 +120,13 @@
 <script>
 function calculate() {
   let money = parseFloat(document.getElementById("money").value);
-  let hours = parseFloat(document.getElementById("hours").value);
+  let team = parseFloat(document.getElementById("team").value);
 
-  if (isNaN(money) || isNaN(hours)) {
+  if (isNaN(money) || isNaN(team)) {
     document.getElementById("result").innerHTML = "❌ Vyplň vše.";
     return;
   }
 
-  let hourly = money / (hours * 4.33);
   let pv = money / 7;
 
   let levels = [
@@ -155,23 +148,29 @@ function calculate() {
     }
   }
 
-  let daily = chosen.pv / 30;
-  let people = chosen.pv / 100;
+  let neededPeople = chosen.pv / 100;
+  let missing = neededPeople - team;
+
+  let message = "";
+
+  if (missing > 0) {
+    message = `⚠️ Chybí ti ${missing.toFixed(1)} lidí`;
+  } else {
+    message = `🔥 Máš dost lidí – teď stačí výkon`;
+  }
 
   document.getElementById("result").innerHTML =
-    `💸 ${hourly.toFixed(0)} Kč/hod<br><br>
-     🎯 ${pv.toFixed(0)} PV<br>
+    `🎯 Potřebuješ ${pv.toFixed(0)} PV<br>
      📊 Level ${chosen.percent}%<br>
-     📈 ${chosen.pv} PV<br><br>
-     📆 ${daily.toFixed(1)} PV denně<br>
-     👥 ${people.toFixed(1)} lidí<br><br>
-     🔥 Tohle je tvůj plán`;
+     👥 Potřebuješ: ${neededPeople.toFixed(1)} lidí<br>
+     👤 Máš: ${team}<br><br>
+     ${message}`;
 
   document.getElementById("cta").style.display = "block";
 }
 
 function openTelegram() {
-  let username = "Simon37FX";
+  let username = "TVUJ_USERNAME";
   let text = encodeURIComponent("Ahoj, chci poradit s plánem");
   window.open(`https://t.me/${username}?text=${text}`, "_blank");
 }
