@@ -12,21 +12,24 @@
       font-family: Arial, sans-serif;
       background: linear-gradient(135deg, #000000, #1a0033, #2d0066);
       color: white;
+      height: 100vh;
     }
 
     .container {
-      display: flex;
-      justify-content: center;
-      align-items: center; /* 👉 PC = střed */
-      min-height: 100vh;
-      padding: 20px;
+      position: relative;
+      height: 100vh;
     }
 
     .card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%); /* 🔥 TOTO TO OPRAVÍ */
+      
       background: rgba(20, 0, 40, 0.9);
       padding: 30px;
       border-radius: 20px;
-      width: 100%;
+      width: 90%;
       max-width: 400px;
       text-align: center;
       box-shadow: 0 0 30px rgba(140, 0, 255, 0.5);
@@ -81,11 +84,16 @@
       margin-top: 10px;
     }
 
-    /* 🔥 MOBIL FIX */
+    /* 📱 MOBIL FIX */
     @media (max-width: 600px) {
-      .container {
-        align-items: flex-start; /* 👉 mobil = nahoře */
-        min-height: auto;
+      .card {
+        position: static;
+        transform: none;
+        margin: 20px auto;
+      }
+
+      body {
+        height: auto;
       }
     }
   </style>
