@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Kalkulačka úspěchu</title>
 
-  <!-- MOBIL FIX -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -18,7 +17,7 @@
     .container {
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: center; /* 👉 PC = střed */
       min-height: 100vh;
       padding: 20px;
     }
@@ -46,15 +45,6 @@
       background: #1a0033;
       color: white;
       font-size: 16px;
-    }
-
-    input::placeholder {
-      color: #aaa;
-    }
-
-    /* odstranění šipek */
-    input[type="number"]::-webkit-inner-spin-button {
-      -webkit-appearance: none;
     }
 
     button {
@@ -91,16 +81,11 @@
       margin-top: 10px;
     }
 
-    /* MOBIL ÚPRAVA */
+    /* 🔥 MOBIL FIX */
     @media (max-width: 600px) {
       .container {
-        align-items: flex-start;
+        align-items: flex-start; /* 👉 mobil = nahoře */
         min-height: auto;
-      }
-
-      .card {
-        padding: 20px;
-        border-radius: 15px;
       }
     }
   </style>
@@ -178,9 +163,8 @@ function calculate() {
 }
 
 function openTelegram() {
-  let username = "Simon37FX"; // ZMĚŇ!
+  let username = "Simon37FX";
   let text = encodeURIComponent("Ahoj, chci poradit s plánem");
-
   window.open(`https://t.me/${username}?text=${text}`, "_blank");
 }
 </script>
