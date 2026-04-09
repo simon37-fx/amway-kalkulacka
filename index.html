@@ -195,6 +195,19 @@ function calculate() {
   }
 
   resultBox.appendChild(messageDiv);
+  let realityText = document.createElement("div");
+
+if (missing > 0) {
+  realityText.style.color = "#ff4d4d";
+  realityText.style.marginTop = "10px";
+  realityText.innerHTML = "👉 Takhle to teď nestačí – musíš změnit strategii";
+} else {
+  realityText.style.color = "#00ff99";
+  realityText.style.marginTop = "10px";
+  realityText.innerHTML = "👉 Jdeš správně – teď to jen škáluj";
+}
+
+resultBox.appendChild(realityText);
 
   document.getElementById("cta").style.display = "block";
 }
