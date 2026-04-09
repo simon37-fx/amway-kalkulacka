@@ -119,9 +119,9 @@
 
     <h2>💸 Kolik musíš udělat, abys vydělal?</h2>
 
-<p style="color:#aaa; font-size:14px; margin-top:-10px;">
-Zjisti během 5 sekund, jestli na to jdeš správně
-</p>
+    <p style="color:#aaa; font-size:14px; margin-top:-10px;">
+      Zjisti během 5 sekund, jestli na to jdeš správně
+    </p>
 
     <input type="tel" id="money" placeholder="Kolik chceš vydělat (Kč)">
     <input type="tel" id="team" placeholder="Kolik lidí chceš mít v týmu">
@@ -132,8 +132,8 @@ Zjisti během 5 sekund, jestli na to jdeš správně
 
     <div id="cta">
       <p style="color:#aaa;">
-💬 Ukážu ti přesně jak to dát krok za krokem (zdarma)
-</p>
+        💬 Ukážu ti přesně jak to dát krok za krokem (zdarma)
+      </p>
       <button id="tgButton" onclick="openTelegram()">
         🔥 Chci vědět jak to dát
       </button>
@@ -178,14 +178,13 @@ function calculate() {
 
   let resultBox = document.getElementById("result");
 
-  // základní výpis
   resultBox.innerHTML =
     `🎯 Potřebuješ ${Math.ceil(pv)} PV<br>
      📊 Level ${chosen.percent}%<br><br>
      👥 Potřebuješ: ${neededPeople} lidí<br>
      👤 Máš: ${Math.ceil(team)}<br>`;
 
-  // 🔥 TADY SE PŘIDÁ BOX (GARANTOVANĚ)
+  // MESSAGE BOX
   let messageDiv = document.createElement("div");
 
   if (missing > 0) {
@@ -197,27 +196,35 @@ function calculate() {
   }
 
   resultBox.appendChild(messageDiv);
+
+  // GLOW efekt
+  if (missing <= 0) {
+    messageDiv.style.boxShadow = "0 0 20px #00ff99";
+  }
+
+  // REALITA
   let realityText = document.createElement("div");
 
-if (missing > 0) {
-  realityText.style.color = "#ff4d4d";
-  realityText.style.marginTop = "10px";
-  realityText.innerHTML = "👉 Takhle to teď nestačí – musíš změnit strategii";
-} else {
-  realityText.style.color = "#00ff99";
-  realityText.style.marginTop = "10px";
-  realityText.innerHTML = "👉 Jdeš správně – teď to jen škáluj";
-}
+  if (missing > 0) {
+    realityText.style.color = "#ff4d4d";
+    realityText.innerHTML = "👉 Takhle to teď nestačí – musíš změnit strategii";
+  } else {
+    realityText.style.color = "#00ff99";
+    realityText.innerHTML = "👉 Jdeš správně – teď to jen škáluj";
+  }
 
-resultBox.appendChild(realityText);
+  realityText.style.marginTop = "10px";
+  resultBox.appendChild(realityText);
+
+  // EXTRA TLAK
   if (missing > 5) {
-  let warning = document.createElement("div");
-  warning.style.color = "#ffaa00";
-  warning.style.marginTop = "10px";
-  warning.innerHTML = "⚠️ Tohle je velký rozdíl – bez týmu to nepůjde";
+    let warning = document.createElement("div");
+    warning.style.color = "#ffaa00";
+    warning.style.marginTop = "10px";
+    warning.innerHTML = "⚠️ Tohle je velký rozdíl – bez týmu to nepůjde";
 
-  resultBox.appendChild(warning);
-}
+    resultBox.appendChild(warning);
+  }
 
   document.getElementById("cta").style.display = "block";
 }
@@ -225,10 +232,7 @@ resultBox.appendChild(realityText);
 function openTelegram() {
   let username = "Simon37FX";
   let text = encodeURIComponent("Ahoj, chci poradit s plánem");
-
-  let url = `https://t.me/${username}?text=${text}`;
-
-  window.location.href = url;
+  window.location.href = `https://t.me/${username}?text=${text}`;
 }
 </script>
 
