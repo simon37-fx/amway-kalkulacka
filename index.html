@@ -159,7 +159,7 @@ function calculate() {
     }
   }
 
-  let neededPeople = chosen.pv / 100;
+  let neededPeople = Math.ceil(chosen.pv / 100);
   let missing = neededPeople - team;
 
   let message = "";
@@ -174,7 +174,7 @@ function calculate() {
     `🎯 Potřebuješ ${pv.toFixed(0)} PV<br>
      📊 Level ${chosen.percent}%<br><br>
 
-     👥 Potřebuješ: ${neededPeople.toFixed(1)} lidí<br>
+     👥 Potřebuješ tým: ${neededPeople} lidí
      👤 Máš: ${team}<br><br>
 
      ${message}`;
