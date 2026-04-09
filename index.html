@@ -100,6 +100,7 @@
 
     <h2>💸 Vypočítej si svůj plán</h2>
 
+    <!-- ✅ jen 2 inputy -->
     <input type="number" id="money" placeholder="Kolik chceš vydělat (Kč)">
     <input type="number" id="team" placeholder="Kolik lidí chceš mít v týmu">
 
@@ -161,16 +162,18 @@ function calculate() {
 
   document.getElementById("result").innerHTML =
     `🎯 Potřebuješ ${pv.toFixed(0)} PV<br>
-     📊 Level ${chosen.percent}%<br>
+     📊 Level ${chosen.percent}%<br><br>
+
      👥 Potřebuješ: ${neededPeople.toFixed(1)} lidí<br>
      👤 Máš: ${team}<br><br>
+
      ${message}`;
 
   document.getElementById("cta").style.display = "block";
 }
 
 function openTelegram() {
-  let username = "TVUJ_USERNAME";
+  let username = "Simon37FX"; // změň!
   let text = encodeURIComponent("Ahoj, chci poradit s plánem");
   window.open(`https://t.me/${username}?text=${text}`, "_blank");
 }
