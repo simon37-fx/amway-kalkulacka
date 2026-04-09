@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
   <title>Kalkulačka úspěchu</title>
 
   <style>
     body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #000000, #1a0033, #2d0066);
+  color: white;
+  min-height: 100vh; /* 👈 přidej tohle */
+}
       margin: 0;
       font-family: Arial, sans-serif;
       background: linear-gradient(135deg, #000000, #1a0033, #2d0066);
@@ -13,17 +20,17 @@
     }
 
     .container {
-      display: flex;
-      justify-content: center;
-      padding: 40px 20px;
-    }
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
 
     .card {
       background: rgba(20, 0, 40, 0.9);
       padding: 30px;
       border-radius: 20px;
       width: 100%;
-      max-width: 380px;
+      max-width: 420px;
       text-align: center;
       box-shadow: 0 0 30px rgba(140, 0, 255, 0.5);
     }
@@ -71,6 +78,29 @@
       cursor: pointer;
       margin-top: 10px;
     }
+    @media (max-width: 600px) {
+  .card {
+    padding: 20px;
+    border-radius: 15px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  input {
+    font-size: 16px;
+    padding: 14px;
+  }
+
+  button {
+    font-size: 16px;
+    padding: 16px;
+  }
+
+  #tgButton {
+    padding: 16px;
+  }
   </style>
 </head>
 
