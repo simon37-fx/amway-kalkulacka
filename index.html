@@ -210,6 +210,14 @@ if (missing > 0) {
 }
 
 resultBox.appendChild(realityText);
+  if (missing > 5) {
+  let warning = document.createElement("div");
+  warning.style.color = "#ffaa00";
+  warning.style.marginTop = "10px";
+  warning.innerHTML = "⚠️ Tohle je velký rozdíl – bez týmu to nepůjde";
+
+  resultBox.appendChild(warning);
+}
 
   document.getElementById("cta").style.display = "block";
 }
