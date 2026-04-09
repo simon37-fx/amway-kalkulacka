@@ -81,6 +81,18 @@
       font-weight: bold;
     }
 
+    #progressContainer {
+      display: none;
+      margin-top: 15px;
+    }
+
+    #progressBar {
+      height: 10px;
+      width: 0%;
+      border-radius: 10px;
+      transition: 0.5s;
+    }
+
     #cta {
       display: none;
       margin-top: 20px;
@@ -98,16 +110,33 @@
       margin-top: 10px;
     }
 
+    /* 🔥 NOTIFIKACE */
+    #popup {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(0,0,0,0.9);
+      padding: 10px 15px;
+      border-radius: 10px;
+      font-size: 13px;
+      color: #00ff99;
+      display: none;
+      box-shadow: 0 0 10px rgba(0,255,150,0.3);
+      animation: fadeIn 0.5s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity:0; transform:translateY(10px); }
+      to { opacity:1; transform:translateY(0); }
+    }
+
     @media (max-width: 600px) {
       .card {
         position: static;
         transform: none;
         margin: 20px auto;
       }
-
-      body {
-        height: auto;
-      }
+      body { height: auto; }
     }
   </style>
 </head>
@@ -130,6 +159,13 @@
 
     <div id="result"></div>
 
+    <div id="progressContainer">
+      <div style="background:#1a0033; border-radius:10px;">
+        <div id="progressBar"></div>
+      </div>
+      <div id="progressText" style="margin-top:5px; font-size:12px; color:#aaa;"></div>
+    </div>
+
     <div id="cta">
       <p style="color:#aaa;">
         💬 Ukážu ti přesně jak to dát krok za krokem (zdarma)
@@ -142,6 +178,9 @@
   </div>
 </div>
 
+<!-- 🔥 POPUP -->
+<div id="popup"></div>
+
 <script>
 function calculate() {
   let money = parseFloat(document.getElementById("money").value.replace(",", "."));
@@ -153,98 +192,55 @@ function calculate() {
   }
 
   let pv = money / 7;
-
-  let levels = [
-    { pv: 200, percent: 3 },
-    { pv: 600, percent: 6 },
-    { pv: 1200, percent: 9 },
-    { pv: 2400, percent: 12 },
-    { pv: 4000, percent: 15 },
-    { pv: 7000, percent: 18 },
-    { pv: 10000, percent: 21 }
-  ];
-
-  let chosen = levels[levels.length - 1];
-
-  for (let level of levels) {
-    if (pv <= level.pv) {
-      chosen = level;
-      break;
-    }
-  }
-
-  let neededPeople = Math.ceil(chosen.pv / 100);
+  let neededPeople = Math.ceil(pv / 100);
   let missing = Math.ceil(neededPeople - team);
 
   let resultBox = document.getElementById("result");
 
   resultBox.innerHTML =
     `🎯 Potřebuješ ${Math.ceil(pv)} PV<br>
-     📊 Level ${chosen.percent}%<br><br>
      👥 Potřebuješ: ${neededPeople} lidí<br>
      👤 Máš: ${Math.ceil(team)}<br>`;
 
-  // MESSAGE BOX
-  let messageDiv = document.createElement("div");
+  let msg = document.createElement("div");
+  msg.className = missing > 0 ? "error" : "success";
+  msg.innerHTML = missing > 0 
+    ? `⚠️ Chybí ti ${missing} lidí`
+    : `✅ Máš dost lidí – teď stačí výkon`;
 
-  if (missing > 0) {
-    messageDiv.className = "error";
-    messageDiv.innerHTML = `⚠️ Chybí ti ${missing} lidí`;
-  } else {
-    messageDiv.className = "success";
-    messageDiv.innerHTML = `✅ Máš dost lidí – teď stačí výkon`;
-  }
+  resultBox.appendChild(msg);
 
-  resultBox.appendChild(messageDiv);
+  // progress
+  let progress = Math.min((team / neededPeople) * 100, 100);
+  document.getElementById("progressContainer").style.display = "block";
+  document.getElementById("progressBar").style.width = progress + "%";
+  document.getElementById("progressBar").style.background =
+    progress < 50 ? "#ff4d4d" : progress < 100 ? "#ffaa00" : "#00ff99";
 
-  // GLOW efekt
-  if (missing <= 0) {
-    messageDiv.style.boxShadow = "0 0 20px #00ff99";
-  }
-
-  // REALITA
-  let realityText = document.createElement("div");
-
-  if (missing > 0) {
-    realityText.style.color = "#ff4d4d";
-    realityText.innerHTML = "👉 Takhle to teď nestačí – musíš změnit strategii";
-  } else {
-    realityText.style.color = "#00ff99";
-    realityText.innerHTML = "👉 Jdeš správně – teď to jen škáluj";
-  }
-
-  realityText.style.marginTop = "10px";
-  resultBox.appendChild(realityText);
-
-  // 🔥 KOLIK LIDÍ TÝDNĚ
-  if (missing > 0) {
-    let weekly = Math.ceil(missing / 4);
-
-    let weeklyDiv = document.createElement("div");
-    weeklyDiv.style.marginTop = "10px";
-    weeklyDiv.style.color = "#00c6ff";
-    weeklyDiv.innerHTML = `📅 Musíš nabrat <b>${weekly}</b> lidí týdně`;
-
-    resultBox.appendChild(weeklyDiv);
-  }
-
-  // EXTRA TLAK
-  if (missing > 5) {
-    let warning = document.createElement("div");
-    warning.style.color = "#ffaa00";
-    warning.style.marginTop = "10px";
-    warning.innerHTML = "⚠️ Tohle je velký rozdíl – bez týmu to nepůjde";
-
-    resultBox.appendChild(warning);
-  }
+  document.getElementById("progressText").innerHTML =
+    `📊 Máš splněno ${Math.round(progress)}% týmu`;
 
   document.getElementById("cta").style.display = "block";
 }
 
+// 🔥 FAKE SOCIAL PROOF
+let names = ["Martin","Petr","Jan","Tomáš","David","Lukáš"];
+
+function showPopup() {
+  let popup = document.getElementById("popup");
+  let name = names[Math.floor(Math.random()*names.length)];
+
+  popup.innerHTML = `🔥 ${name} právě začal budovat tým`;
+  popup.style.display = "block";
+
+  setTimeout(() => popup.style.display = "none", 3000);
+}
+
+setInterval(showPopup, 8000);
+
+// Telegram
 function openTelegram() {
-  let username = "Simon37FX";
-  let text = encodeURIComponent("Ahoj, chci poradit s plánem");
-  window.location.href = `https://t.me/${username}?text=${text}`;
+  window.location.href = "https://t.me/Simon37FX";
 }
 </script>
 
