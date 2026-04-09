@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Kalkulačka úspěchu</title>
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -62,24 +61,6 @@
       line-height: 1.6;
     }
 
-    #cta {
-      display: none;
-      margin-top: 20px;
-    }
-
-    #tgButton {
-      width: 100%;
-      padding: 15px;
-      border-radius: 10px;
-      border: none;
-      background: linear-gradient(90deg, #0088cc, #00c6ff);
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    /* 🔥 SUCCESS / ERROR BOX */
     .success {
       background: rgba(0, 255, 150, 0.1);
       border: 1px solid #00ff99;
@@ -98,6 +79,23 @@
       border-radius: 10px;
       margin-top: 10px;
       font-weight: bold;
+    }
+
+    #cta {
+      display: none;
+      margin-top: 20px;
+    }
+
+    #tgButton {
+      width: 100%;
+      padding: 15px;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(90deg, #0088cc, #00c6ff);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
     }
 
     @media (max-width: 600px) {
@@ -172,28 +170,33 @@ function calculate() {
   let neededPeople = Math.ceil(chosen.pv / 100);
   let missing = Math.ceil(neededPeople - team);
 
-  let message = "";
+  let resultBox = document.getElementById("result");
 
-  if (missing > 0) {
-    message = `<div class="error">⚠️ Chybí ti ${missing} lidí</div>`;
-  } else {
-    message = `<div class="success">✅ Máš dost lidí – teď stačí výkon</div>`;
-  }
-
-  document.getElementById("result").innerHTML =
+  // základní výpis
+  resultBox.innerHTML =
     `🎯 Potřebuješ ${Math.ceil(pv)} PV<br>
      📊 Level ${chosen.percent}%<br><br>
-
      👥 Potřebuješ: ${neededPeople} lidí<br>
-     👤 Máš: ${Math.ceil(team)}<br>
+     👤 Máš: ${Math.ceil(team)}<br>`;
 
-     ${message}`;
+  // 🔥 TADY SE PŘIDÁ BOX (GARANTOVANĚ)
+  let messageDiv = document.createElement("div");
+
+  if (missing > 0) {
+    messageDiv.className = "error";
+    messageDiv.innerHTML = `⚠️ Chybí ti ${missing} lidí`;
+  } else {
+    messageDiv.className = "success";
+    messageDiv.innerHTML = `✅ Máš dost lidí – teď stačí výkon`;
+  }
+
+  resultBox.appendChild(messageDiv);
 
   document.getElementById("cta").style.display = "block";
 }
 
 function openTelegram() {
-  let username = "TVUJ_USERNAME"; // změň!
+  let username = "TVUJ_USERNAME";
   let text = encodeURIComponent("Ahoj, chci poradit s plánem");
   window.open(`https://t.me/${username}?text=${text}`, "_blank");
 }
