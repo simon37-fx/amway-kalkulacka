@@ -218,6 +218,17 @@ function calculate() {
 
   // EXTRA TLAK
   if (missing > 5) {
+    // 🔥 KOLIK LIDÍ TÝDNĚ
+if (missing > 0) {
+  let weekly = Math.ceil(missing / 4);
+
+  let weeklyDiv = document.createElement("div");
+  weeklyDiv.style.marginTop = "10px";
+  weeklyDiv.style.color = "#00c6ff";
+  weeklyDiv.innerHTML = `📅 Musíš nabrat <b>${weekly}</b> lidí týdně`;
+
+  resultBox.appendChild(weeklyDiv);
+}
     let warning = document.createElement("div");
     warning.style.color = "#ffaa00";
     warning.style.marginTop = "10px";
